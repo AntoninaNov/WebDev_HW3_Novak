@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Python HTTP Server API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/
+paths:
+  /analyze-text:
+    post:
+      summary: Analyze Text File and String
+      description: Accepts a text file and a string, and returns metadata about the file.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Text file to be analyzed
+                string:
+                  type: string
+                  description: String to be searched in the text file
+      responses:
+        '200':
+          description: Successful response
+  /parse-url:
+    get:
+      summary: Parse URL
+      description: Parses a given URL and provides human-readable information.
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: URL to be parsed
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid URL format
+  /images/{filename}:
+    get:
+      summary: Serve Images
+      description: Serves images if they exist, otherwise returns an error.
+      parameters:
+        - in: path
+          name: filename
+          schema:
+            type: string
+          required: true
+          description: Name of the image file
+      responses:
+        '200':
+          description: Image found and served
+        '404':
+          description: Image not found
